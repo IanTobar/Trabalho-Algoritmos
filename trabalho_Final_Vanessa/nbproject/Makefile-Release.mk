@@ -35,7 +35,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/IO.o \
 	${OBJECTDIR}/arvore234.o \
+	${OBJECTDIR}/arvoreRN.o \
+	${OBJECTDIR}/auxiliares.o \
 	${OBJECTDIR}/main.o
 
 
@@ -63,12 +66,27 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/trabalho_final_vanessa: ${OBJECTFILES
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/trabalho_final_vanessa ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/arvore234.o: arvore234.c 
+${OBJECTDIR}/IO.o: IO.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IO.o IO.c
+
+${OBJECTDIR}/arvore234.o: arvore234.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/arvore234.o arvore234.c
 
-${OBJECTDIR}/main.o: main.c 
+${OBJECTDIR}/arvoreRN.o: arvoreRN.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/arvoreRN.o arvoreRN.c
+
+${OBJECTDIR}/auxiliares.o: auxiliares.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/auxiliares.o auxiliares.c
+
+${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
@@ -79,7 +97,6 @@ ${OBJECTDIR}/main.o: main.c
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/trabalho_final_vanessa
 
 # Subprojects
 .clean-subprojects:

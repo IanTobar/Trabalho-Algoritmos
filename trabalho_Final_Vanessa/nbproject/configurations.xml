@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="97">
+<configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Arquivos de Cabeçalho"
                    projectFiles="true">
       <itemPath>arvore234.h</itemPath>
+      <itemPath>arvoreRN.h</itemPath>
+      <itemPath>auxiliar.h</itemPath>
+      <itemPath>io.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Arquivos de Código-Fonte"
                    projectFiles="true">
+      <itemPath>IO.c</itemPath>
       <itemPath>arvore234.c</itemPath>
+      <itemPath>arvoreRN.c</itemPath>
+      <itemPath>auxiliares.c</itemPath>
       <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -38,9 +44,21 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="IO.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="arvore234.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="arvore234.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="arvoreRN.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="arvoreRN.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="auxiliar.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="auxiliares.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="io.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -65,9 +83,21 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="IO.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="arvore234.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="arvore234.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="arvoreRN.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="arvoreRN.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="auxiliar.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="auxiliares.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="io.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
