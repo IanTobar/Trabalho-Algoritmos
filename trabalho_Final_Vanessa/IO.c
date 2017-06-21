@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int *contaLinhas(FILE *entrada) { //conta quantas linhas existem em um arquivo composto por numeros inteiros
+int contaLinhas(FILE *entrada) { //conta quantas linhas existem em um arquivo composto por numeros inteiros
     int linhas = 0, aux;
     entrada = fopen("entrada.txt", "r");
     if (entrada == NULL) {
@@ -31,3 +31,7 @@ int *leDados() { //le dados de um arquivo de inteiros
     }
     return aux; //retorna o vetor
 }
+
+
+
+

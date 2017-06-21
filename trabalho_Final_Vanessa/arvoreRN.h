@@ -1,32 +1,32 @@
 #ifndef ARVORERN_H
 #define ARVORERN_H
 
-typedef struct rb {
+typedef struct rn {
     int raiz;
     char cor;
-    struct rb *esq;
-    struct rb *dir;
-    struct rb *pai;
-} rb;
+    struct rn *esq;
+    struct rn *dir;
+    struct rn *pai;
+} rn;
 
 //Inicializa a Ã¡rvore Rubro Negra, criando a sentinela com raiz = -1000 e preta
-rb *inicializaArvore();
+rn *inicializaArvore();
 
 //Insere o nÃ³ na Ã¡rvore normalmente. Ao final, chama a funÃ§Ã£o balanceamentoRBInsercao
-void insereNoRB(rb *A, int valorNo);
+void insereNoRB(rn *A, int valorNo);
 
 //RotaÃ§Ã£o Ã  esquerda
-void rotacaoEsq(rb *A, rb *noDesbalanceado);
+void rotacaoEsq(rn *A, rn *noDesbalanceado);
 
 //RotaÃ§Ã£o Ã  direita
-void rotacaoDir(rb *A, rb *noDesbalanceado);
+void rotacaoDir(rn *A, rn *noDesbalanceado);
 
 //Percorre a Ã¡rvore em ordem.
 // No caso da sentinela *A deve ser A->dir
 // Mostrar a cor do nÃ³
-void percorreOrdem(rb *A);
+void percorreOrdem(rn *A);
 
 //Chama as rotaÃ§Ãµes corretas para ajustar o balanceamento e faz o ajuste correto dos FBs
-void balanceamentoRBInsercao(rb *A, rb *noInserido);
+void balanceamentoRBInsercao(rn *A, rn *noInserido);
 #endif /* ARVORERN_H */
 

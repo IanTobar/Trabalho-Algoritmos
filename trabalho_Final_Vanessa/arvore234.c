@@ -14,12 +14,11 @@ arv234* criaArvore() {
 
     if (a && novo) {
         novo->pai = NULL;
-        novo->count = 0;
         novo->filhos[0] = NULL;
         novo->filhos[1] = NULL;
         novo->filhos[2] = NULL;
         novo->filhos[3] = NULL;
-
+        novo->vazios = MAX_CHAVES;
         a->raiz = novo;
     } else {
         LOG(("Erro ao alocar arvore"));

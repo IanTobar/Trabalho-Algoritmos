@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include "arvoreRN.h"
 
-rb *inicializaArvore() {
-    rb *sentinela;
-    sentinela = (rb*) calloc(1, sizeof (rb));
+rn *inicializaArvore() {
+    rn *sentinela;
+    sentinela = (rn*) calloc(1, sizeof (rn));
     sentinela->raiz = -1000;
     sentinela->esq = NULL;
     sentinela->dir = NULL;
@@ -13,12 +13,12 @@ rb *inicializaArvore() {
     return sentinela;
 }
 
-//Insere o nÃ³ na Ã¡rvore normalmente. Ao final, chama a funÃ§Ã£o balanceamentoRBInsercao
+//Insere o nÃ³ na Ã¡rvore normalmente. Ao final, chama a funÃ§Ã£o balanceamentornInsercao
 
-void insereNoRB(rb *A, int valorNo) {
+void insereNorn(rn *A, int valorNo) {
     //aloca novo nÃ³
-    rb *novoNo;
-    novoNo = (rb*) calloc(1, sizeof (rb));
+    rn *novoNo;
+    novoNo = (rn*) calloc(1, sizeof (rn));
     novoNo->raiz = valorNo;
     novoNo->esq = NULL;
     novoNo->dir = NULL;
@@ -26,8 +26,8 @@ void insereNoRB(rb *A, int valorNo) {
     novoNo->cor = 'v';
 
     //procura o local de inserÃ§Ã£o
-    rb *noAtual = A->dir;
-    rb *noPai = A;
+    rn *noAtual = A->dir;
+    rn *noPai = A;
     while (noAtual != NULL) {
         if (valorNo > noAtual->raiz) {
             noPai = noAtual;
@@ -44,15 +44,15 @@ void insereNoRB(rb *A, int valorNo) {
         noPai->esq = novoNo;
     novoNo->pai = noPai;
     //confere o balanceamento da Ã¡rvore se o pai nÃ£o Ã© a sentinela
-    balanceamentoRBInsercao(A, novoNo);
+    balanceamentornInsercao(A, novoNo);
 
     return;
 }
 
 //RotaÃ§Ã£o Ã  esquerda
 
-void rotacaoEsq(rb *A, rb *p) {
-    rb *q;
+void rotacaoEsq(rn *A, rn *p) {
+    rn *q;
 
     q = p->esq;
     //----------------> Realiza a rotação
@@ -71,8 +71,8 @@ void rotacaoEsq(rb *A, rb *p) {
 
 //RotaÃ§Ã£o Ã  direita
 
-void rotacaoDir(rb *A, rb *p) {
-    rb *q;
+void rotacaoDir(rn *A, rn *p) {
+    rn *q;
 
     q = p->esq;
     //----------------> Realiza a rotação
@@ -94,7 +94,7 @@ void rotacaoDir(rb *A, rb *p) {
 // No caso da sentinela *A deve ser A->dir
 // Mostrar a cor do nÃ³
 
-void percorreOrdem(rb *A) {
+void percorreOrdem(rn *A) {
     if (A == NULL)
         return;
     percorreOrdem(A->esq);
@@ -104,10 +104,10 @@ void percorreOrdem(rb *A) {
 
 //Chama as rotaÃ§Ãµes corretas para ajustar o balanceamento e faz o ajuste correto dos FBs
 
-void balanceamentoRBInsercao(rb *A, rb *z) {
-    rb *pai = z->pai;
-    rb *avo = z->pai->pai;
-    rb *tio;
+void balanceamentornInsercao(rn *A, rn *z) {
+    rn *pai = z->pai;
+    rn *avo = z->pai->pai;
+    rn *tio;
     char corTio;
 
     if (pai->cor == 'v') {
@@ -123,7 +123,7 @@ void balanceamentoRBInsercao(rb *A, rb *z) {
                 pai->cor = 'p';
                 tio->cor = 'p';
                 avo->cor = 'v';
-                balanceamentoRBInsercao(A, avo);
+                balanceamentornInsercao(A, avo);
             }
             //caso 2
             if ((corTio == 'p') && (z->raiz > pai->raiz)) {
@@ -151,7 +151,7 @@ void balanceamentoRBInsercao(rb *A, rb *z) {
                     tio->cor = 'p';
                     avo->cor = 'v';
                     z = avo;
-                    balanceamentoRBInsercao(A, avo);
+                    balanceamentornInsercao(A, avo);
                 }
                 //caso 2
                 if ((corTio == 'p') && (z->raiz > pai->raiz)) {
@@ -170,4 +170,3 @@ void balanceamentoRBInsercao(rb *A, rb *z) {
     }
     A->dir->cor = 'p';
 }
-
