@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "arvoreRN.h"
 
-rn *inicializaArvore() {
+rn *iniciaArvoreRN() {
     rn *sentinela;
     sentinela = (rn*) calloc(1, sizeof (rn));
     sentinela->raiz = -1000;
@@ -15,7 +15,7 @@ rn *inicializaArvore() {
 
 //Insere o nÃ³ na Ã¡rvore normalmente. Ao final, chama a funÃ§Ã£o balanceamentornInsercao
 
-void insereNorn(rn *A, int valorNo) {
+void insereNoRN(rn *A, int valorNo) {
     //aloca novo nÃ³
     rn *novoNo;
     novoNo = (rn*) calloc(1, sizeof (rn));
@@ -90,17 +90,8 @@ void rotacaoDir(rn *A, rn *p) {
     return;
 }
 
-//Percorre a Ã¡rvore em ordem.
-// No caso da sentinela *A deve ser A->dir
-// Mostrar a cor do nÃ³
 
-void percorreOrdem(rn *A) {
-    if (A == NULL)
-        return;
-    percorreOrdem(A->esq);
-    printf(" %d %c -- ", A->raiz, A->cor);
-    percorreOrdem(A->dir);
-}
+
 
 //Chama as rotaÃ§Ãµes corretas para ajustar o balanceamento e faz o ajuste correto dos FBs
 
@@ -169,4 +160,160 @@ void balanceamentornInsercao(rn *A, rn *z) {
         }
     }
     A->dir->cor = 'p';
+}
+
+void removeNoRN(rn* A, int valor) {
+    rn *noAux = A->dir;
+    rn *noSucessor = NULL;
+
+    //encontra o nó a ser removido
+    while (noAux != NULL && noAux->raiz != valor) {
+        if (valor > noAux->raiz)
+            noAux = noAux->dir;
+        else
+            noAux = noAux->esq;
+    }
+    //verifica se o nó não existe na árvore
+    if (noAux == NULL) {
+        printf("O no não existe na arvore\n");
+        return;
+    } else
+        printf("Nó a ser buscado foi encontrado!\n");
+
+    noSucessor = noAux->dir;
+
+    printf("aquiantes1\n");
+    if (noSucessor != NULL) {
+        while (noSucessor->esq != NULL) {
+            noSucessor = noSucessor->esq;
+        }
+    } else {
+        if (noAux->esq == NULL) {
+            if (noAux->pai->dir == noAux)
+                noAux->pai->dir = NULL;
+            else noAux->pai->esq = NULL;
+        } else {
+            noAux->pai = noAux->esq;
+            free(noAux);
+        }
+        free(noSucessor);
+        A->cor = 'p';
+        return;
+    }
+    printf(noSucessor->raiz);
+    printf("aquiantes2\n");
+    //Caso 1 -> noRemovido = vermelho e noSucessor = vermelho
+    if (noAux->cor == 'v' && noSucessor->cor == 'v') {
+        printf("aqui1\n");
+        noAux->raiz = noSucessor->raiz;
+        if (noSucessor->dir != NULL) {
+            printf("aqui2\n");
+            noSucessor->pai->esq = noSucessor->dir;
+            noSucessor = noSucessor->dir;
+        } else {
+            printf("aqui3\n");
+            noSucessor->pai->esq = NULL;
+            free(noSucessor);
+        }
+    } else {
+        //Caso 2 -> noRemovido = preto e noSucessor = vermelho
+        if (noAux->cor == 'p' && noSucessor->cor == 'v') {
+            noAux->pai = noSucessor;
+            noSucessor->cor = 'p';
+            noAux = noSucessor;
+            if (noSucessor->dir != NULL) {
+                noSucessor->pai->esq = noSucessor->dir;
+            }
+            free(noSucessor);
+        } else {
+            //Caso 3 -> noRemovido = preto e noSucessor = preto
+            if (noAux->cor == 'p' && noSucessor->cor == 'p') {
+                rn* noIrmao;
+
+                //Encontra no irmão
+                if (noAux == noAux->pai->dir) {
+                    noIrmao = noAux->pai->esq;
+                } else {
+                    noIrmao = noAux->pai->dir;
+                }
+
+                if (noIrmao != NULL) {
+
+                    if (noAux->pai->esq = noAux) {
+                        //Caso 1 do 3 -> irmão vermelho
+                        if (noIrmao->cor == 'v') {
+                            noIrmao->cor = 'p';
+                            noIrmao->pai->cor = 'v';
+                            rotacaoEsq(A, noIrmao->pai);
+                            noIrmao = noAux->pai->dir;
+                        }
+
+                        //Caso 2 do 3 -> irmao preto e filhos pretos
+                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'p' && noIrmao->esq->cor == 'p') {
+                            if (noIrmao->pai->cor == 'v') {
+                                noIrmao->cor = 'v';
+                                noIrmao->pai->cor = 'p';
+                            } else {
+                                noIrmao->cor = 'v';
+                            }
+                        }
+
+                        //Caso 3 do 3 -> irmão preto e filho esquerdo vermelho e o direito preto
+                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'p' && noIrmao->esq->cor == 'v') {
+                            noIrmao->esq->cor = 'p';
+                            noIrmao->cor = 'v';
+                            rotacaoDir(A, noIrmao);
+                            noIrmao = noAux->pai->dir;
+                        }
+
+                        //Caso 4 do 3 -> irmão preto e filho da direita é vermelho e o outro preto
+                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'v' && noIrmao->esq->cor == 'p') {
+                            noIrmao->cor = noIrmao->pai->cor;
+                            noIrmao->pai->cor = 'p';
+                            noIrmao->dir->cor = 'p';
+                            rotacaoEsq(A, noAux);
+                            noAux = A;
+                        }
+                    } else {
+                        //Caso 1 do 3 -> irmão vermelho
+                        if (noIrmao->cor == 'v') {
+                            noIrmao->cor = 'p';
+                            noIrmao->pai->cor = 'v';
+                            rotacaoDir(A, noIrmao->pai);
+                            noIrmao = noAux->pai->esq;
+                        }
+
+                        //Caso 2 do 3 -> irmao preto e filhos pretos
+                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'p' && noIrmao->esq->cor == 'p') {
+                            if (noIrmao->pai->cor == 'v') {
+                                noIrmao->cor = 'v';
+                                noIrmao->pai->cor = 'p';
+                            } else {
+                                noIrmao->cor = 'v';
+                            }
+                        }
+
+                        //Caso 3 do 3 -> irmão preto e filho esquerdo vermelho e o direito preto
+                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'p' && noIrmao->esq->cor == 'v') {
+                            noIrmao->dir->cor = 'p';
+                            noIrmao->cor = 'v';
+                            rotacaoEsq(A, noIrmao);
+                            noIrmao = noAux->pai->esq;
+                        }
+
+                        //Caso 4 do 3 -> irmão preto e filho da direita é vermelho e o outro preto
+                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'v' && noIrmao->esq->cor == 'p') {
+                            noIrmao->cor = noIrmao->pai->cor;
+                            noIrmao->pai->cor = 'p';
+                            noIrmao->esq->cor = 'p';
+                            rotacaoDir(A, noAux);
+                            noAux = A;
+                        }
+                    }
+                }else{
+                        
+                }
+            }
+        }
+    }
 }

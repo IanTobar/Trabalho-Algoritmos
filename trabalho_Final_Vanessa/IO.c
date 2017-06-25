@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include"io.h"
+#include "arvore234.h"
+#include "arvoreRN.h"
 
 int contaLinhas(FILE *entrada) { //conta quantas linhas existem em um arquivo composto por numeros inteiros
     int linhas = 0, aux;
@@ -32,6 +35,25 @@ int *leDados() { //le dados de um arquivo de inteiros
     return aux; //retorna o vetor
 }
 
+int printaVet(int *vet) {
+    int i, tamVet;
+    tamVet = 20;
+    for (i = 0; i < tamVet; i++) {
+        printf("%d ", vet[i]);
+    }
 
+}
 
+//Percorre a Ã¡rvore em ordem.
+// No caso da sentinela *A deve ser A->dir
+// Mostrar a cor do nÃ³
+
+void percorreOrdemRN(rn *A) {
+    if (A == NULL)
+        return;
+    percorreOrdemRN(A->esq);
+    printf(" %d %c -- ", A->raiz, A->cor);
+    percorreOrdemRN(A->dir);
+    
+}
 

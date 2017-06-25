@@ -1,4 +1,3 @@
-
 #include "arvore234.h"
 #include <stdio.h>
 #include <stdlib.h>
