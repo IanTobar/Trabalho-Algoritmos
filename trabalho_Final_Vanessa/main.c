@@ -6,10 +6,11 @@
 #include "auxiliar.h"
 
 int main(int argc, char** argv) {
-    rn *arvoreRN;
+    rn *arvoreRN = iniciaArvoreRN();    
     arv234 *arvore234;
     int *dados, op, num;
     dados = leDados();
+
     do {
         printf("Arvores Balanceadas: Menu\n1. Inserir novo elemento na arvore 2,3,4\n2.Remover elemento da arvore 2,3,4\n3. Imprimir arvore 2,3,4\n4. Converter em uma arvore rubro-negra\n5. Sair\n");
         scanf("%d", &op);
@@ -40,7 +41,6 @@ int main(int argc, char** argv) {
                             printf("Digite o numero que se deseja remover\n");
                             scanf("%d", &num);
                             removeNoRN(arvoreRN, num);
-
                             break;
                         case 3:
                             percorreOrdemRN(arvoreRN->dir);

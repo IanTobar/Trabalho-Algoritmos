@@ -1,13 +1,15 @@
 #ifndef ARVORERN_H
 #define ARVORERN_H
 
-typedef struct rn {
+typedef struct ArvoreRN rn;
+
+struct ArvoreRN {
     int raiz;
     char cor;
-    struct rn *esq;
-    struct rn *dir;
-    struct rn *pai;
-} rn;
+    rn *esq;
+    rn *dir;
+    rn *pai;
+};
 
 rn *iniciaArvoreRN();
 void insereNoRN(rn *A, int valorNo);

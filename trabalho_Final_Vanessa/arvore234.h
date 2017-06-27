@@ -1,6 +1,3 @@
-
-#include <stdlib.h>
-
 #ifndef ARVORE234_H
 #define ARVORE234_H
 

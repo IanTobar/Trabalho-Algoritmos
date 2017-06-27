@@ -3,13 +3,14 @@
 #include "arvoreRN.h"
 
 rn *iniciaArvoreRN() {
-    rn *sentinela;
-    sentinela = (rn*) calloc(1, sizeof (rn));
+    printf("Aquiporra");
+    rn *sentinela = (rn*) malloc(sizeof (rn));
     sentinela->raiz = -1000;
     sentinela->esq = NULL;
     sentinela->dir = NULL;
     sentinela->pai = NULL;
     sentinela->cor = 'p';
+    printf("Aquiporra1");
     return sentinela;
 }
 
@@ -18,7 +19,7 @@ rn *iniciaArvoreRN() {
 void insereNoRN(rn *A, int valorNo) {
     //aloca novo nÃ³
     rn *novoNo;
-    novoNo = (rn*) calloc(1, sizeof (rn));
+    novoNo = (rn*) malloc(sizeof (rn));
     novoNo->raiz = valorNo;
     novoNo->esq = NULL;
     novoNo->dir = NULL;
@@ -90,9 +91,6 @@ void rotacaoDir(rn *A, rn *p) {
     return;
 }
 
-
-
-
 //Chama as rotaÃ§Ãµes corretas para ajustar o balanceamento e faz o ajuste correto dos FBs
 
 void balanceamentornInsercao(rn *A, rn *z) {
@@ -162,7 +160,120 @@ void balanceamentornInsercao(rn *A, rn *z) {
     A->dir->cor = 'p';
 }
 
-void removeNoRN(rn* A, int valor) {
+void removeNoRN(rn *A, int valor) {
+    printf("Removendo...\n");
+    rn *noAux;
+    rn *noSucessor;
+
+    noAux = A->dir;//seta o ponteiro auxiliar com a raiz da arvore
+    
+    if(noAux == NULL){
+        printf("Arvore Vazia!\n");
+        return;
+    }
+
+    //encontra o nó a ser removido
+    while (noAux != NULL) {
+        if (noAux->raiz != valor) {
+            if (valor > noAux->raiz)
+                noAux = noAux->dir;
+            else
+                noAux = noAux->esq;
+        } else break;
+    }
+    //verifica se o nó não existe na árvore
+    if (noAux == NULL) {
+        printf("O no não existe na arvore\n");
+        return;
+    } else
+        printf("No a ser buscado foi encontrado!\n");
+ 
+    if (noAux->dir == NULL && noAux->esq == NULL) {
+        /*
+         * Neste caso estamos lidando com um nó folha, o qual será removido de maneira
+         * simples.
+         */
+        printf("O no e uma folha!\n");
+
+        //Verifica de onde é sua origem da esquerda ou da direita de seu pai
+        if (noAux->pai->dir == noAux) {
+            noAux->pai->dir = NULL;
+        } else {
+            noAux->pai->esq = NULL;
+        }
+
+        noAux = NULL;
+        free(noAux);
+        return;
+    } else {
+        /*
+         * Neste caso estamos lidando com um nó com filhos, para isso teremos que
+         * fazer alterações em seus ponteiros para que nada se perca!
+         * 
+         * Já que o nó tem filhos, ele tem um sucessor para substitui-lo, então 
+         * precisamos achar ele antes de fazer as alterações
+         */
+
+        printf("No nao e uma folha!\nProcurando sucessor...\n");
+
+        noSucessor = noAux->dir; //A busca se inicia na arvore esquerda do nó a ser removido
+
+        //Se o valor é null quer dizer que ele não possui sucessor
+        if (noSucessor != NULL) {
+            //Procura sucessor caso exista arvore direita ao nó a ser removido
+            while (noSucessor->esq != NULL) {
+                noSucessor = noSucessor->esq;
+            }
+        } else {
+            printf("Nao existe um sucessor para o no a ser removido!\n");
+            /*
+             * Como ja garantimos acima que esse nó não é uma folha, e que ele não possui
+             * sucessor(filho a direita), então obrigatóriamente ele tem um filho a esquerda 
+             * que herdará sua posição!
+             */
+            noAux->raiz = noAux->esq->raiz;
+            noAux->esq = NULL;
+            return;
+        }
+
+        //Checa se o noSucessor foi encontrado com sucesso
+        if (noSucessor == NULL) {
+            printf("Erro ao procurar pelo nó sucessor!\n");
+            return;
+        } else
+            printf("Sucessor encontrado: %d\n", noSucessor->raiz);
+
+        /*Agora que achamos o sucessor, temos que ver suas caracteristicas:*/
+
+        if (noSucessor->dir == NULL && noSucessor->esq == NULL) {
+            printf("No sucessor e uma folha!\n");
+            /*Se o nó sucessor for uma folha somente copie ele para a posição do
+             do nó removido e sete ele como NULL, ou seja, remova ele*/
+            noAux->raiz = noSucessor->raiz;
+            if (noSucessor->pai->dir == noSucessor) {
+                noSucessor->pai->dir = NULL;
+            } else {
+                noSucessor->pai->esq = NULL;
+            }
+            noSucessor = NULL;
+            free(noSucessor);
+        } else {
+            printf("No sucessor nao e uma folha!");
+            //por se tratar do sucessor, sabemos que ele é o nó que esta totalmente 
+            //a esquerda da arvore direita, então ele não terá filho a esquerda!
+            //Então se o programa cair neste caso é porque ele tem um filho a direita.
+            noSucessor->raiz = noSucessor->dir->raiz;
+            noSucessor->pai->esq = noSucessor->dir;
+            noSucessor->dir->pai = noSucessor->pai;
+            noAux->raiz = noSucessor->raiz;
+            noSucessor = NULL;
+            free(noSucessor);
+        }
+    }
+}
+
+
+void balanceiaRemocao(rn* A, int valor) {
     rn *noAux = A->dir;
     rn *noSucessor = NULL;
 
@@ -182,25 +293,6 @@ void removeNoRN(rn* A, int valor) {
 
     noSucessor = noAux->dir;
 
-    printf("aquiantes1\n");
-    if (noSucessor != NULL) {
-        while (noSucessor->esq != NULL) {
-            noSucessor = noSucessor->esq;
-        }
-    } else {
-        if (noAux->esq == NULL) {
-            if (noAux->pai->dir == noAux)
-                noAux->pai->dir = NULL;
-            else noAux->pai->esq = NULL;
-        } else {
-            noAux->pai = noAux->esq;
-            free(noAux);
-        }
-        free(noSucessor);
-        A->cor = 'p';
-        return;
-    }
-    printf(noSucessor->raiz);
     printf("aquiantes2\n");
     //Caso 1 -> noRemovido = vermelho e noSucessor = vermelho
     if (noAux->cor == 'v' && noSucessor->cor == 'v') {
@@ -310,8 +402,8 @@ void removeNoRN(rn* A, int valor) {
                             noAux = A;
                         }
                     }
-                }else{
-                        
+                } else {
+
                 }
             }
         }
