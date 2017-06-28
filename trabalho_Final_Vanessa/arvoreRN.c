@@ -3,14 +3,12 @@
 #include "arvoreRN.h"
 
 rn *iniciaArvoreRN() {
-    printf("Aquiporra");
     rn *sentinela = (rn*) malloc(sizeof (rn));
     sentinela->raiz = -1000;
     sentinela->esq = NULL;
     sentinela->dir = NULL;
     sentinela->pai = NULL;
     sentinela->cor = 'p';
-    printf("Aquiporra1");
     return sentinela;
 }
 
@@ -44,7 +42,7 @@ void insereNoRN(rn *A, int valorNo) {
     else
         noPai->esq = novoNo;
     novoNo->pai = noPai;
-    //confere o balanceamento da Ã¡rvore se o pai nÃ£o Ã© a sentinela
+    //confere o balanceamento da arvore se o pai nao e o sentinela
     balanceamentornInsercao(A, novoNo);
 
     return;
@@ -165,9 +163,9 @@ void removeNoRN(rn *A, int valor) {
     rn *noAux;
     rn *noSucessor;
 
-    noAux = A->dir;//seta o ponteiro auxiliar com a raiz da arvore
-    
-    if(noAux == NULL){
+    noAux = A->dir; //seta o ponteiro auxiliar com a raiz da arvore
+
+    if (noAux == NULL) {
         printf("Arvore Vazia!\n");
         return;
     }
@@ -187,7 +185,9 @@ void removeNoRN(rn *A, int valor) {
         return;
     } else
         printf("No a ser buscado foi encontrado!\n");
- 
+
+    balanceiaRemocaoRN(noAux);
+
     if (noAux->dir == NULL && noAux->esq == NULL) {
         /*
          * Neste caso estamos lidando com um nó folha, o qual será removido de maneira
@@ -231,6 +231,7 @@ void removeNoRN(rn *A, int valor) {
              * sucessor(filho a direita), então obrigatóriamente ele tem um filho a esquerda 
              * que herdará sua posição!
              */
+
             noAux->raiz = noAux->esq->raiz;
             noAux->esq = NULL;
             return;
@@ -272,140 +273,176 @@ void removeNoRN(rn *A, int valor) {
     }
 }
 
+void balanceiaRemocaoRN(rn* z) {
+    printf("Funcao de balanceamento chamada!\n");
+    /*
+     * y = z se z possuía um ou nenhum filho
+     * y = sucessor(z) se z possuía dois filhos.
+     * x é o filho de y antes da remoção de z ou NULO caso y nao
+     * possuísse filho.
+     * w é o irmão de y.
+     */
 
-void balanceiaRemocao(rn* A, int valor) {
-    rn *noAux = A->dir;
-    rn *noSucessor = NULL;
+    rn *y; //Sucessor.
+    rn *x; //Filho do sucessor antes da remoção.
+    rn *w; //Irmão do sucessor.
+    rn *A; //Raiz da arvore
 
-    //encontra o nó a ser removido
-    while (noAux != NULL && noAux->raiz != valor) {
-        if (valor > noAux->raiz)
-            noAux = noAux->dir;
-        else
-            noAux = noAux->esq;
-    }
-    //verifica se o nó não existe na árvore
-    if (noAux == NULL) {
-        printf("O no não existe na arvore\n");
-        return;
-    } else
-        printf("Nó a ser buscado foi encontrado!\n");
+    rn *aux = z->dir;
 
-    noSucessor = noAux->dir;
+    printf("Procurando Sucessor...\n");
 
-    printf("aquiantes2\n");
-    //Caso 1 -> noRemovido = vermelho e noSucessor = vermelho
-    if (noAux->cor == 'v' && noSucessor->cor == 'v') {
-        printf("aqui1\n");
-        noAux->raiz = noSucessor->raiz;
-        if (noSucessor->dir != NULL) {
-            printf("aqui2\n");
-            noSucessor->pai->esq = noSucessor->dir;
-            noSucessor = noSucessor->dir;
-        } else {
-            printf("aqui3\n");
-            noSucessor->pai->esq = NULL;
-            free(noSucessor);
+    if (aux != NULL) {
+        while (aux->esq != NULL) {
+            aux = aux->esq;
         }
+        y = aux;
+        x = y->dir; //seta o filho do sucessor.
+        w = y->pai->dir; //seta o irmão do sucessor.
     } else {
-        //Caso 2 -> noRemovido = preto e noSucessor = vermelho
-        if (noAux->cor == 'p' && noSucessor->cor == 'v') {
-            noAux->pai = noSucessor;
-            noSucessor->cor = 'p';
-            noAux = noSucessor;
-            if (noSucessor->dir != NULL) {
-                noSucessor->pai->esq = noSucessor->dir;
+        y = (rn*) malloc(sizeof (rn));
+        y->cor = 'p';
+        printf("O no removido nao tem sucessor!\n");
+    }
+
+    aux = z->pai;
+    printf("Procurando a raiz da Arvore!\n");
+    if (aux->raiz != -1000) {
+        while (aux->pai->raiz != -1000) {
+            aux = aux->pai;
+        }
+    }
+    
+    if (aux->pai->raiz == -1000) {
+        printf("A raiz foi achada!\n");
+        printf("raiz de seu pai: %d\n", aux->pai->raiz);
+        A = aux;
+    } else {
+        printf("Erro ao achar a raiz!\n");
+        return;
+    }
+
+    /*BALANCEANDO !!!*/
+
+    //Situacao 1
+    if (z->cor == 'v') {
+        printf("Situacao 1\n");
+        printf("\nNo removido e vermelho entao nada sera feito!\n\n");
+        A->cor = 'p';
+        return;
+    }
+
+    //Situacao 2
+    if (z->cor == 'p' && y->cor == 'v') {
+        printf("Situacao 2\n");
+        y->cor = 'p';
+        A->cor = 'p';
+        return;
+    }
+
+    //Situacao 3(PIOR CASO)
+    if (z->cor == 'p' && y->cor == 'p') {
+        printf("Situacao 3\n");
+        //Leva a 4 novos casos
+
+        if (x->pai->esq == x) {
+            //Caso 1 (w vermelho)
+            if (w->cor = 'v') {
+                printf("Caso 1\n");
+                w->cor = 'p';
+                w->pai->cor = 'v';
+                rotacaoEsq(NULL, w->pai);
+                w = x->pai->dir;
             }
-            free(noSucessor);
+            //Caso 2 (w preto e ambos filhos pretos)
+            if (w->cor = 'p' && ((w->esq->cor == 'p' || w->esq == NULL) && (w->dir->cor == 'p' || w->dir == NULL))) {
+                printf("Caso 2\n");
+                if (w->pai->cor == 'v') {
+                    w->cor = 'v';
+                    w->pai->cor = 'p';
+                } else {
+                    w->cor = 'v';
+                }
+                A->cor = 'p';
+                return;
+            }
+            //Caso 3 (w preto e filho esquerda vermelho e direita preto)
+            if (w->cor = 'p' && w->esq->cor == 'v' && (w->dir->cor == 'p' || w->dir == NULL)) {
+                printf("Caso 3\n");
+                w->esq->cor = 'p';
+                w->cor = 'v';
+                rotacaoDir(NULL, w);
+                w = x->pai->dir;
+            }
+            //Caso 4 (w preto e filho da direita e vermelho)
+            if (w->cor = 'p' && w->dir->cor == 'v') {
+                printf("Caso 4\n");
+                w->cor = w->pai->cor;
+                w->pai->cor = 'p';
+                w->dir->cor = 'p';
+                rotacaoEsq(NULL, x->pai);
+                x->raiz = A->raiz; //?
+            }
         } else {
-            //Caso 3 -> noRemovido = preto e noSucessor = preto
-            if (noAux->cor == 'p' && noSucessor->cor == 'p') {
-                rn* noIrmao;
-
-                //Encontra no irmão
-                if (noAux == noAux->pai->dir) {
-                    noIrmao = noAux->pai->esq;
+            //Caso 1 (w vermelho)
+            if (w->cor = 'v') {
+                printf("Caso 1\n");
+                w->cor = 'p';
+                w->pai->cor = 'v';
+                rotacaoDir(NULL, w->pai);
+                w = x->pai->esq;
+            }
+            //Caso 2 (w preto e ambos filhos pretos)
+            if (w->cor = 'p' && ((w->esq->cor == 'p' || w->esq == NULL) && (w->dir->cor == 'p' || w->dir == NULL))) {
+                printf("Caso 2\n");
+                if (w->pai->cor == 'v') {
+                    w->cor = 'v';
+                    w->pai->cor = 'p';
                 } else {
-                    noIrmao = noAux->pai->dir;
+                    w->cor = 'v';
                 }
-
-                if (noIrmao != NULL) {
-
-                    if (noAux->pai->esq = noAux) {
-                        //Caso 1 do 3 -> irmão vermelho
-                        if (noIrmao->cor == 'v') {
-                            noIrmao->cor = 'p';
-                            noIrmao->pai->cor = 'v';
-                            rotacaoEsq(A, noIrmao->pai);
-                            noIrmao = noAux->pai->dir;
-                        }
-
-                        //Caso 2 do 3 -> irmao preto e filhos pretos
-                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'p' && noIrmao->esq->cor == 'p') {
-                            if (noIrmao->pai->cor == 'v') {
-                                noIrmao->cor = 'v';
-                                noIrmao->pai->cor = 'p';
-                            } else {
-                                noIrmao->cor = 'v';
-                            }
-                        }
-
-                        //Caso 3 do 3 -> irmão preto e filho esquerdo vermelho e o direito preto
-                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'p' && noIrmao->esq->cor == 'v') {
-                            noIrmao->esq->cor = 'p';
-                            noIrmao->cor = 'v';
-                            rotacaoDir(A, noIrmao);
-                            noIrmao = noAux->pai->dir;
-                        }
-
-                        //Caso 4 do 3 -> irmão preto e filho da direita é vermelho e o outro preto
-                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'v' && noIrmao->esq->cor == 'p') {
-                            noIrmao->cor = noIrmao->pai->cor;
-                            noIrmao->pai->cor = 'p';
-                            noIrmao->dir->cor = 'p';
-                            rotacaoEsq(A, noAux);
-                            noAux = A;
-                        }
-                    } else {
-                        //Caso 1 do 3 -> irmão vermelho
-                        if (noIrmao->cor == 'v') {
-                            noIrmao->cor = 'p';
-                            noIrmao->pai->cor = 'v';
-                            rotacaoDir(A, noIrmao->pai);
-                            noIrmao = noAux->pai->esq;
-                        }
-
-                        //Caso 2 do 3 -> irmao preto e filhos pretos
-                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'p' && noIrmao->esq->cor == 'p') {
-                            if (noIrmao->pai->cor == 'v') {
-                                noIrmao->cor = 'v';
-                                noIrmao->pai->cor = 'p';
-                            } else {
-                                noIrmao->cor = 'v';
-                            }
-                        }
-
-                        //Caso 3 do 3 -> irmão preto e filho esquerdo vermelho e o direito preto
-                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'p' && noIrmao->esq->cor == 'v') {
-                            noIrmao->dir->cor = 'p';
-                            noIrmao->cor = 'v';
-                            rotacaoEsq(A, noIrmao);
-                            noIrmao = noAux->pai->esq;
-                        }
-
-                        //Caso 4 do 3 -> irmão preto e filho da direita é vermelho e o outro preto
-                        if (noIrmao->cor == 'p' && noIrmao->dir->cor == 'v' && noIrmao->esq->cor == 'p') {
-                            noIrmao->cor = noIrmao->pai->cor;
-                            noIrmao->pai->cor = 'p';
-                            noIrmao->esq->cor = 'p';
-                            rotacaoDir(A, noAux);
-                            noAux = A;
-                        }
-                    }
-                } else {
-
-                }
+                A->cor = 'p';
+                return;
+            }
+            //Caso 3 (w preto e filho esquerda vermelho e direita preto)
+            if (w->cor = 'p' && w->dir->cor == 'v' && (w->esq->cor == 'p' || w->esq == NULL)) {
+                printf("Caso 3\n");
+                w->dir->cor = 'p';
+                w->cor = 'v';
+                rotacaoEsq(NULL, w);
+                w = x->pai->esq;
+            }
+            //Caso 4 (w preto e filho da direita e vermelho)
+            if (w->cor = 'p' && w->esq->cor == 'v') {
+                printf("Caso 4\n");
+                w->cor = w->pai->cor;
+                w->pai->cor = 'p';
+                w->esq->cor = 'p';
+                rotacaoDir(NULL, x->pai);
+                x = A->raiz;
             }
         }
+    }
+    A->cor = 'p';
+}
+/*
+int remove_arvoreRN(rn *raiz, int valor) {
+    if (consulta_arvoreRN(raiz, valor)) {
+        rn *h = raiz;
+
+        raiz = remove_No_RN(h, valor);
+        if (raiz != NULL)
+            raiz->cor = 'p';
+        return 1;
+    } else {
+        return 0;
     }
 }
+
+rn *remove_No_RN(rn *h, int valor){
+    if(valor < h->raiz){
+        if(h->esq->cor == 'p' && h->esq->esq == 'p'){
+            h = 
+        }
+    }
+}*/
