@@ -7,8 +7,12 @@
 //Abreviação da função printf
 #define LOG(x) (printf x)
 
-void isLeaf(no234 *no) {
-
+int isLeaf(no234 *no) {
+    if ((no->filho1 == NULL) && (no->filho2 == NULL) &&(no->filho3 == NULL) && (no->filho4 == NULL)) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 no234 *criaNo234(int ch1, int ch2, int ch3, no234 *f1, no234 *f2, no234 *f3, no234 *f4, int tipoNo) {
@@ -21,11 +25,9 @@ no234 *criaNo234(int ch1, int ch2, int ch3, no234 *f1, no234 *f2, no234 *f3, no2
     novoNo->filho2 = f2;
     novoNo->filho3 = f3;
     novoNo->filho4 = f4;
-    novoNo->tipoArvore = tipoNo;
+    novoNo->tipoNo = tipoNo;
 
-
-
-
+    return novoNo;
 }
 
 no234 *quebraNo(no234 *no, int val, int *rval, no234 *subarvore) {
@@ -55,34 +57,36 @@ no234 *quebraNo(no234 *no, int val, int *rval, no234 *subarvore) {
     }
 }
 
+void adicionaChave(no234 no) {
 
-
+}
 
 // insere val em no (se necessario retorna o novo no e um valor
 // rval)
 
-no234 *insere234(no234 **no, int val, int *rval) {
+/*no234 *insere234(no234 *no, int val, int *rval) {
     no234 *paux, *paux2;
     int vaux, promov;
 
     if (*no == NULL) { // arvore vazia
-        *no = (no234 *) malloc(sizeof (no234));
-        *no = criaNo234(val, 0, 0, NULL, NULL, NULL, NULL, 1); // cria no folha com um valor 
+ *no = (no234 *) malloc(sizeof (no234));
+ *no = criaNo234(val, 0, 0, NULL, NULL, NULL, NULL, 1); // cria no folha com um valor 
         return NULL; // nada a fazer depois
     }
     if (isLeaf(*no)) { // chegou a folha
-        if ((*no)->vazios == 1) { // caso fácil
+        if ((no->tipoNo == 1) || (no->tipoNo == 2)) { // caso fácil
             adicionaChave(*no, val, NULL);
             return NULL;
         } else {
             paux = quebraNo(*no, val, &vaux, NULL);
-            *rval = vaux;
+ *rval = vaux;
             return paux;
         }
     } else { // continua a procura
-        if (val < (*no)->lkey)
-            paux = insere(&((*no)->left), val, &vaux);
-        else if (((*no)->nkeys == 1) || (val < (*no)->rkey))
+
+        if (val < (no->lChave) {
+                paux = insere234(&(no->filho1), val, &vaux);
+            } else if (no->tipoNo == 1) || (val < no->rkey))
             paux = insere(&((*no)->center), val, &vaux);
         else
             paux = insere(&((*no)->right), val, &vaux);
@@ -94,10 +98,23 @@ no234 *insere234(no234 **no, int val, int *rval) {
             return NULL;
         } else {
             paux2 = quebraNo(*no, vaux, &promov, paux);
-            *rval = promov;
+ *rval = promov;
+
             return paux2;
         }
     }
+}*/
+
+
+
+
+no234 *insere234(no234 *no, int num) {
+    if (no == NULL) { //se arvore esta vazia
+        *no = (no234 *) malloc(sizeof (no234)); //aloca no
+        *no = criaNo234(num, 0, 0, NULL, NULL, NULL, NULL, 1); // cria no folha com um valor 
+        return no;
+    }
+
 }
 
 no234 *find(no234 *raiz, int key) {
