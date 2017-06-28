@@ -42,7 +42,7 @@ no234 *quebraNo(no234 *no, int val, int *rval, no234 *subarvore) {
         paux = no->right;
         no->right = NULL; // elimina o terceiro filho
         no->nkeys = 1; // atualiza o número de chaves
-        return criaNo(val, 0, 1, paux, subarvore, NULL);
+        return criaNo234(val, 0, 1, paux, subarvore, NULL);
     } else if (val >= no->lkey) { // val esta no meio
         *rval = val; // continua sendo promovido
         paux = no->right;
