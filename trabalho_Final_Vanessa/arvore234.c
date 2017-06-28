@@ -7,30 +7,24 @@
 //Abreviação da função printf
 #define LOG(x) (printf x)
 
-arv234* criaArvore() {
-    arv234* a = malloc(arv234);
-    no* novo = malloc(no);
-
-    if (a && novo) {
-        novo->pai = NULL;
-        novo->filhos[0] = NULL;
-        novo->filhos[1] = NULL;
-        novo->filhos[2] = NULL;
-        novo->filhos[3] = NULL;
-        novo->vazios = MAX_CHAVES;
-        a->raiz = novo;
-    } else {
-        LOG(("Erro ao alocar arvore"));
-    }
-
-    return a;
-}
-
 void isLeaf(no234 *no) {
 
 }
 
-no234 *criaNo234(int ch1, int ch2, int ch3, no234 *f1, no234 *f2, no234 *f3, no234 *f4) {
+no234 *criaNo234(int ch1, int ch2, int ch3, no234 *f1, no234 *f2, no234 *f3, no234 *f4, int tipoNo) {
+    no234 *novoNo;
+    novoNo = (no234*) malloc(sizeof (no234));
+    novoNo->lChave = ch1;
+    novoNo->cChave = ch2;
+    novoNo->rChave = ch3;
+    novoNo->filho1 = f1;
+    novoNo->filho2 = f2;
+    novoNo->filho3 = f3;
+    novoNo->filho4 = f4;
+    novoNo->tipoArvore = tipoNo;
+
+
+
 
 }
 
@@ -73,8 +67,7 @@ no234 *insere234(no234 **no, int val, int *rval) {
 
     if (*no == NULL) { // arvore vazia
         *no = (no234 *) malloc(sizeof (no234));
-        *no = criaNo234(val, 0, 0, NULL, NULL, NULL, NULL,);
-        // cria no folha com um valor 
+        *no = criaNo234(val, 0, 0, NULL, NULL, NULL, NULL, 1); // cria no folha com um valor 
         return NULL; // nada a fazer depois
     }
     if (isLeaf(*no)) { // chegou a folha

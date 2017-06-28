@@ -13,13 +13,18 @@ struct Arvore234 {
 };
 
 struct No234 {
-    int chave[MAX_CHAVES]; //Vetor que armazena as 3 chaves, que é o maximo que um nó 234 pode ter
     no234 *filho1;
+    int rChave;
     no234 *filho2;
+    int cChave;
     no234 *filho3;
+    int lChave;
     no234 *filho4;
+
     no234 *pai; //ponteiro para o pai do nó
-    int vazios;
+    int tipoNo;
+
+
 };
 
 #endif /* ARVORE234_H */
