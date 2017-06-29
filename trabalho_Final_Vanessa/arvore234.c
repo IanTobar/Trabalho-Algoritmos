@@ -69,21 +69,21 @@ arvoreB *insere(arvoreB *raiz, int info, bool *h, int *info_retorno) {
                         insere_chave(temp, raiz->chaves[i], raiz->filhos[i + 1]);
 
                     //atualiza nó raiz. 
-                    for (i = MIN_OCUP; raiz->chaves[i] = 0;
-                            raiz->filhos[i + 1] = NULL);
-
+                    for (i = MIN_OCUP; i < MAX_CHAVES; i++) {
+                        raiz->chaves[i] = 0;
+                        raiz->filhos[i + 1] = NULL;
                     }
-                raiz->num_chaves = MIN_OCUP;
+                    raiz->num_chaves = MIN_OCUP;
 
-                //Verifica em qual nó será inserida a nova chave
-                if (pos <= MIN_OCUP)
-                    insere_chave(raiz, *info_retorno, filho_dir);
-                else insere_chave(temp, *info_retorno, filho_dir);
+                    //Verifica em qual nó será inserida a nova chave
+                    if (pos <= MIN_OCUP)
+                        insere_chave(raiz, *info_retorno, filho_dir);
+                    else insere_chave(temp, *info_retorno, filho_dir);
 
-                //retorna o mediano para inserí-lo no nó pai e o temp como filho direito do mediano.
-                *info_retorno = info_mediano;
-
-                return (temp);
+                    //retorna o mediano para inserí-lo no nó pai e o temp como filho direito do mediano.
+                    *info_retorno = info_mediano;
+                    return (temp);
+                }
             }
         }
     }
@@ -104,8 +104,7 @@ arvoreB *insere_arvoreB(arvoreB *raiz, int info) {
         for (i = 2; i <= MAX_CHAVES; i++)
             nova_raiz->filhos[i] = NULL;
         return (nova_raiz);
-    }
-    else return (raiz);
+    } else return (raiz);
 }
 
 arvoreB *retira_arvoreB(arvoreB *raiz, int info) {
@@ -124,7 +123,6 @@ int busca_binaria(arvoreB *no, int info) {
         else if (no->chaves[meio] > info) {
             f = meio - 1;
         } else {
-
             i = meio + 1;
         }
     }
@@ -140,7 +138,6 @@ bool busca(arvoreB *raiz, int info) {
         pos = busca_binaria(no, info);
         if (pos < no->num_chaves && no->chaves[pos] == info)
             return (true);
-
         else no = no->filhos[pos];
     }
     return (false);
@@ -151,7 +148,6 @@ void em_ordem(arvoreB *raiz) {
 
     if (raiz != NULL) {
         for (i = 0; i < raiz->num_chaves; i++) {
-
             em_ordem(raiz->filhos[i]);
             printf("\n%d", raiz->chaves[i]);
         }
