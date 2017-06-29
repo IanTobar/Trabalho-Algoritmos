@@ -7,12 +7,23 @@
 
 int main(int argc, char** argv) {
     rn *arvoreRN = iniciaArvoreRN();
-    arv234 *arvore234;
+    arvoreB *raiz;
     int *dados, op, num, i, rVal;
     dados = leDados();
-    for (i = 0; i < 20; i++) {
-        insere234(arvore234, dados[i], &rVal);
+    int contador;
+    raiz = NULL;
+    /*for (i = 0; i < 20; i++) {
+        raiz = insere_arvoreB(raiz,i);
+        em_ordem(raiz);
+        printf("\n**************************************************\n");
+    }*/
+    
+       for (contador = 9; contador > 0; contador--) {
+        raiz = insere_arvoreB(raiz, contador);
+                em_ordem(raiz);
+                printf("\n**************************************************\n");
     }
+
     do {
         printf("Arvores Balanceadas: Menu\n1. Inserir novo elemento na arvore 2,3,4\n2.Remover elemento da arvore 2,3,4\n3. Imprimir arvore 2,3,4\n4. Converter em uma arvore rubro-negra\n5. Sair\n");
         scanf("%d", &op);

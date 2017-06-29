@@ -3,14 +3,12 @@
 #include "arvoreRN.h"
 
 rn *iniciaArvoreRN() {
-    printf("Aquiporra");
     rn *sentinela = (rn*) malloc(sizeof (rn));
     sentinela->raiz = -1000;
     sentinela->esq = NULL;
     sentinela->dir = NULL;
     sentinela->pai = NULL;
     sentinela->cor = 'p';
-    printf("Aquiporra1");
     return sentinela;
 }
 

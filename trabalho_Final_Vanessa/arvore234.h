@@ -20,6 +20,13 @@ struct no_arvoreB {
 };
 
 void selectionSort(int vetorDesordenado[], int tamanhoVetor);
+void insere_chave(arvoreB *raiz, int info, arvoreB *filhodir);
+arvoreB *insere(arvoreB *raiz, int info, bool *h, int *info_retorno);
+arvoreB *insere_arvoreB(arvoreB *raiz, int info);
+arvoreB *retira_arvoreB(arvoreB *raiz, int info);
+int busca_binaria(arvoreB *no, int info);
+bool busca(arvoreB *raiz, int info);
+void em_ordem(arvoreB *raiz);
 
 
 
