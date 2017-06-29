@@ -17,7 +17,7 @@ void rotacaoEsq(rn *A, rn *noDesbalanceado);
 void rotacaoDir(rn *A, rn *noDesbalanceado);
 void removeNoRN(rn* A, int valor);
 void balanceamentornInsercao(rn *A, rn *z);
-void balanceiaRemocaoRN(rn *z);
+void balanceiaRemocaoRN(rn* A,rn *z,rn* y,rn* x,rn* w);
 #endif /* ARVORERN_H */
 
 
