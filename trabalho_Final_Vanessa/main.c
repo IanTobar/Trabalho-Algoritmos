@@ -10,8 +10,13 @@ int main(int argc, char** argv) {
     arvoreB *raiz;
     int *dados, op, num, i, rVal;
     dados = leDados();
-    int contador;
     raiz = NULL;
+    for (i = 0; i < 20; i++) {
+        printf("%d",dados[i]);
+        insere_arvoreB(raiz, dados[i]);
+
+    }
+
     do {
         printf("Arvores Balanceadas: Menu\n1. Inserir novo elemento na arvore 2,3,4\n2.Remover elemento da arvore 2,3,4\n3. Imprimir arvore 2,3,4\n4. Converter em uma arvore rubro-negra\n5. Sair\n");
         scanf("%d", &op);
@@ -22,15 +27,17 @@ int main(int argc, char** argv) {
                 raiz = insere_arvoreB(raiz, num);
                 break;
             case 2:
-                
+                printf("Remocao - funcao nao implementada\n");
                 break;
             case 3:
-
+                em_ordem(raiz);
                 break;
 
             case 4:
                 system("clear");
                 do {
+                    converteArvore(raiz, arvoreRN);
+                    percorreOrdemRN(arvoreRN);
                     printf("Arvores Balanceadas: Menu\n1. Inserir novo elemento na arvore rubro-negra\n2. Remover elemento da arvore rubro-negra\n3. Imprimir arvore rubro-negra\n4. Sair\n");
                     scanf("%d", &op);
 
