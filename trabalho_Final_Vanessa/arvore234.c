@@ -69,9 +69,10 @@ arvoreB *insere(arvoreB *raiz, int info, bool *h, int *info_retorno) {
                         insere_chave(temp, raiz->chaves[i], raiz->filhos[i + 1]);
 
                     //atualiza nó raiz. 
-                    for (i = MIN_OCUP; raiz->chaves[i] = 0; raiz->filhos[i + 1] = NULL);
+                    for (i = MIN_OCUP; raiz->chaves[i] = 0;
+                            raiz->filhos[i + 1] = NULL);
 
-                }
+                    }
                 raiz->num_chaves = MIN_OCUP;
 
                 //Verifica em qual nó será inserida a nova chave
@@ -103,7 +104,8 @@ arvoreB *insere_arvoreB(arvoreB *raiz, int info) {
         for (i = 2; i <= MAX_CHAVES; i++)
             nova_raiz->filhos[i] = NULL;
         return (nova_raiz);
-    } else return (raiz);
+    }
+    else return (raiz);
 }
 
 arvoreB *retira_arvoreB(arvoreB *raiz, int info) {
