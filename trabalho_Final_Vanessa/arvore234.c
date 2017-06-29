@@ -68,13 +68,13 @@ void split234() {
 
 }
 
-no234 *insere234(no234 *no, int num) {
+no234 *insere234(no234 *no, int num, int *rVal) {
     no234 *nAux;
     int vAux;
     if (no == NULL) { //se arvore esta vazia
         *no = (no234 *) malloc(sizeof (no234)); //aloca no
         *no = criaNo234(num, 0, 0, NULL, NULL, NULL, NULL, 1); // cria no folha com uma chave 
-        return no; //retorna no
+        return NULL; //retorna no
     }
     if (isLeaf(no)) { //verifica se chegou a folha
         if ((no->tipoNo == 1) || (no->tipoNo == 2)) { //casos mais faceis de insercao
@@ -86,8 +86,14 @@ no234 *insere234(no234 *no, int num) {
         }
 
     } else {
-
-    }   
+        if (num < no->lChave) {
+            nAux = insere234(&(no->filho1), num, &vAux);
+        } else
+            if ((num > no->lChave) && (num < no->rChave)) {
+            nAux = insere234(&(no->filho2), num, &vAux);
+        }
+            else 
+    }
 
 
 }
