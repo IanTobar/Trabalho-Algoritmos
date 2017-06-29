@@ -6,22 +6,27 @@
 #include "auxiliar.h"
 
 int main(int argc, char** argv) {
-    rn *arvoreRN = iniciaArvoreRN();    
+    rn *arvoreRN = iniciaArvoreRN();
     arv234 *arvore234;
-    int *dados, op, num;
+    int *dados, op, num, i, rVal;
     dados = leDados();
-
+    for (i = 0; i < 20; i++) {
+        insere234(arvore234, dados[i], &rVal);
+    }
     do {
         printf("Arvores Balanceadas: Menu\n1. Inserir novo elemento na arvore 2,3,4\n2.Remover elemento da arvore 2,3,4\n3. Imprimir arvore 2,3,4\n4. Converter em uma arvore rubro-negra\n5. Sair\n");
         scanf("%d", &op);
         switch (op) {
             case 1:
+                printf("Digite o numero que deseja inserir\n");
+                scanf("%d", &num);
 
                 break;
             case 2:
 
                 break;
             case 3:
+
                 break;
 
             case 4:

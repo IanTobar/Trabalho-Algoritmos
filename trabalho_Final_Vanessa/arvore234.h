@@ -1,31 +1,27 @@
 #ifndef ARVORE234_H
 #define ARVORE234_H
 
+#define T          2
 #define MAX_CHAVES 3
 #define MAX_FILHOS 4
+#define MIN_OCUP   1
 
+#define true  1
+#define false 0
 
-typedef struct Arvore234 arv234;
-typedef struct No234 no234;
+typedef int bool;
 
-struct Arvore234 {
-    no234 *raiz;
+typedef struct no_arvoreB arvoreB;
+
+struct no_arvoreB {
+    int num_chaves; //Quantidades de chaves contida no nó
+    int chaves[MAX_CHAVES]; //Chaves armazenadas no nó
+    arvoreB *filhos[MAX_FILHOS]; //Ponteiro para os filhos
 };
 
-struct No234 {
-    no234 *filho1;
-    int rChave;
-    no234 *filho2;
-    int cChave;
-    no234 *filho3;
-    int lChave;
-    no234 *filho4;
-
-    no234 *pai; //ponteiro para o pai do nó
-    int tipoNo;
+void selectionSort(int vetorDesordenado[], int tamanhoVetor);
 
 
-};
 
 #endif /* ARVORE234_H */
 
