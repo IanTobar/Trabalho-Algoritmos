@@ -57,6 +57,7 @@ void converteArvore(arvoreB *arvore234, rn *arvoreRN) {
         } else {
             aux1 = (rn*) malloc(sizeof (rn));
             aux1->raiz = arvore234->chaves[0];
+            aux1->cor = 'v';
             aux1->dir = NULL;
             aux1->esq = NULL;
             if (aux1 > arvoreRN->raiz) {
